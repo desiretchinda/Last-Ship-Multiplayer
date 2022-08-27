@@ -4,16 +4,20 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
+
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
 
     public string gameversion = "0.0.1";
+
+    public TMPro.TextMeshProUGUI txtName;
 
     private void Awake()
     {
         if (!PhotonNetwork.IsConnected)
         {
             PhotonNetwork.GameVersion = gameversion;
+
             PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.ConnectUsingSettings();
         }
@@ -43,6 +47,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsConnected)
             return;
+
+        PhotonNetwork.NickName = txtName.text;
 
         UIFader.Instance.Fade(UIFader.FADE.FadeOut, .5f, 0f, () =>
         {

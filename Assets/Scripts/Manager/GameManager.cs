@@ -13,6 +13,11 @@ public class GameManager : MonoBehaviour
 
     public BulletComponent bulletPrefab;
 
+    public RectTransform canvasTransform;
+
+    public UI_PlayerName uiPlayerName;
+
+    public Camera mainCamera;
 
     private void Awake()
     {
@@ -23,14 +28,16 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UIFader.Instance.Fade(UIFader.FADE.FadeIn, 0.5f, 0);
+        if (!mainCamera)
+            mainCamera = Camera.main;
         SpawnPlayer();
+        UIFader.Instance.Fade(UIFader.FADE.FadeIn, 0.5f, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void SpawnPlayer()
@@ -43,6 +50,5 @@ public class GameManager : MonoBehaviour
 
         PhotonNetwork.Instantiate(playerPrefab.name, playerSpawnPoint.position, Quaternion.identity);
     }
-
 
 }

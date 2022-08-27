@@ -256,6 +256,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpawnPoint: {fileID: 1134716453}
   playerPrefab: {fileID: 1181849887799997905, guid: 1e64eabc0fe634f4bbf50485cc2549d0, type: 3}
+  bulletPrefab: {fileID: 7649796405150909295, guid: 8820635dc299c004f88d37721eab9853, type: 3}
+  canvasTransform: {fileID: 1369464564}
+  uiPlayerName: {fileID: 8511910586084472337, guid: e6d2e61cbcd5ace46b7f14cfb794d56b, type: 3}
+  mainCamera: {fileID: 862960297}
 --- !u!4 &150268996
 Transform:
   m_ObjectHideFlags: 0
