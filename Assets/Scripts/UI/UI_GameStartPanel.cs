@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class UI_GameStartPanel : MonoBehaviour
 {
@@ -10,21 +11,45 @@ public class UI_GameStartPanel : MonoBehaviour
 
     public GameObject txtConnecting;
 
+    public GameObject txtErrorName;
+
+    public TMPro.TMP_InputField txtName;
 
     private void Awake()
     {
+        Debug.Log("awake panel");
         Instance = this;
-        DisplayBtnPlay(false);
-        DisplayTxtConnecting(true);
+        
+        if(PhotonNetwork.IsConnected)
+        {
+            DisplayBtnPlay(true);
+            DisplayTxtConnecting(false);
+            DisplayError(false);
+        }
+        else
+        {
+            DisplayBtnPlay(false);
+            DisplayTxtConnecting(true);
+            DisplayError(false);
+        }
+
     }
 
     public void DisplayBtnPlay(bool state = true)
     {
-        btnPlay.SetActive(state);
+        if (btnPlay)
+            btnPlay.SetActive(state);
     }
 
     public void DisplayTxtConnecting(bool state = true)
     {
-        txtConnecting.SetActive(state);
+        if (txtConnecting)
+            txtConnecting.SetActive(state);
+    }
+
+    public void DisplayError(bool state)
+    {
+        if (txtErrorName)
+            txtErrorName.SetActive(state);
     }
 }

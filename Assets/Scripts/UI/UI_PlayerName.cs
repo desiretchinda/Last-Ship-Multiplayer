@@ -18,9 +18,20 @@ public class UI_PlayerName : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if(owner == null)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     // Update is called once per frame
     void LateUpdate()
     {
+        if (owner == null)
+            return;
+
         rectTransform.position = GameManager.Instance.mainCamera.WorldToScreenPoint(owner.spawnBulletPt.position);
     }
 

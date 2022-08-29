@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class PlayerManager : MonoBehaviourPunCallbacks
+public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 {
+
+    public static PlayerManager Instance;
 
     public float speed = 200;
 
@@ -18,6 +20,16 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     Rigidbody2D rigidbody2;
     public SpriteRenderer spRenderer;
+
+    [HideInInspector]
+    public bool isDead;
+
+    float lag;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +50,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         if (!photonView.IsMine)
             return;
 
+        if (isDead)
+            return;
+
         movement.x = Input.GetAxis("Horizontal");
 
         SpawnBullet();
@@ -48,7 +63,60 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         if (!photonView.IsMine)
             return;
 
+        if (isDead)
+            return;
+
         PlayerMovement();
+    }
+
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        //if(stream.IsWriting)
+        //{
+        //    stream.SendNext(rigidbody2.position);
+        //    stream.SendNext(rigidbody2.rotation);
+        //    stream.SendNext(rigidbody2.velocity);
+        //}else
+        //{
+        //    rigidbody2.position = (Vector2)stream.ReceiveNext();
+        //    rigidbody2.rotation = (float)stream.ReceiveNext();
+        //    rigidbody2.velocity = (Vector2)stream.ReceiveNext();
+
+        //    lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+        //    rigidbody2.position += rigidbody2.velocity * lag;
+        //}
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy") && !isDead)
+        {
+            Instantiate(GameManager.Instance.redExplosion, collision.transform.position, collision.transform.rotation);
+            Destroy(collision.gameObject);
+            Instantiate(GameManager.Instance.redExplosion, transform.position, transform.rotation);
+            spRenderer.enabled = false;
+            isDead = true;
+            PhotonNetwork.LeaveRoom();
+            //StartCoroutine(QuitRoom());
+        }
+    }
+
+    IEnumerator QuitRoom()
+    {
+        yield return new WaitForSeconds(2);
+
+        UIFader.Instance.Fade(UIFader.FADE.FadeOut, .5f, 1f, () =>
+        {
+            if (PhotonNetwork.IsConnected)
+                PhotonNetwork.LeaveRoom();
+
+        });
+    }
+
+    private void OnDestroy()
+    {
+
     }
 
     void PlayerMovement()
@@ -72,10 +140,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     void RPC_SpawnBullet()
     {
         var bullet = Instantiate(GameManager.Instance.bulletPrefab, spawnBulletPt.position, Quaternion.identity);
+        bullet.SetUp();
         if (photonView.IsMine)
+        {
             bullet.spRender.color = Color.white;
-    }
+            bullet.PlayShoot();
+        }
 
+    }
 
     void SetPlayerName()
     {

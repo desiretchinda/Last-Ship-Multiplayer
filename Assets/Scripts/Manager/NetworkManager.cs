@@ -7,12 +7,26 @@ using Photon.Realtime;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
-
+    public static NetworkManager Instance;
     public string gameversion = "0.0.1";
 
-    public TMPro.TextMeshProUGUI txtName;
-
     private void Awake()
+    {
+
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else if (Instance == null)
+        {
+            Destroy(gameObject);
+        }
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Lobby");
+    }
+
+    public void Connect()
     {
         if (!PhotonNetwork.IsConnected)
         {
@@ -21,14 +35,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.ConnectUsingSettings();
         }
-        DontDestroyOnLoad(this);
     }
 
     private void Start()
     {
-        UIFader.Instance.Fade(UIFader.FADE.FadeIn, .5f, 1f);
+        
     }
-
 
     public override void OnConnectedToMaster()
     {
@@ -41,21 +53,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.Log("On disconnect from server " + cause);
-    }
-
-    public void OnClick_JoinRoom()
-    {
-        if (!PhotonNetwork.IsConnected)
-            return;
-
-        PhotonNetwork.NickName = txtName.text;
-
-        UIFader.Instance.Fade(UIFader.FADE.FadeOut, .5f, 0f, () =>
-        {
-            RoomOptions options = new RoomOptions();
-            options.MaxPlayers = 4;
-            PhotonNetwork.JoinRandomOrCreateRoom(roomOptions: options);
-        });
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -73,5 +70,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LoadLevel("GamePlay");
 
         }
+    }
+
+    public override void OnLeftRoom()
+    {
+        UIFader.Instance.Fade(UIFader.FADE.FadeOut, .5f, 1f, () =>
+        {
+           UnityEngine.SceneManagement.SceneManager.LoadScene("Lobby");
+        });
     }
 }
