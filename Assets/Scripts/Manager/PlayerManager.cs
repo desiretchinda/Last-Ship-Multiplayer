@@ -19,10 +19,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     float counterDelaySpawnBullet;
 
     Rigidbody2D rigidbody2;
+
+    BoxCollider2D boxCollider;
+
     public SpriteRenderer spRenderer;
 
     [HideInInspector]
     public bool isDead;
+
+    bool canMove;
 
     float lag;
 
@@ -41,6 +46,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             spRenderer.color = Color.white;
         }
 
+        if(!photonView.IsMine)
+        {
+            boxCollider.isTrigger = true;
+        }
+
         SetPlayerName();
     }
 
@@ -54,7 +64,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             return;
 
         movement.x = Input.GetAxis("Horizontal");
-
+       
         SpawnBullet();
     }
 
@@ -121,8 +131,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void PlayerMovement()
     {
-        rigidbody2.velocity = movement * speed * Time.deltaTime;
 
+        rigidbody2.velocity = movement * speed * Time.deltaTime;
     }
 
     void SpawnBullet()
@@ -144,6 +154,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         if (photonView.IsMine)
         {
             bullet.spRender.color = Color.white;
+            bullet.SetPitch();
             bullet.PlayShoot();
         }
 

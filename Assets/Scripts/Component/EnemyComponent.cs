@@ -7,7 +7,15 @@ public class EnemyComponent : MonoBehaviourPunCallbacks
 {
     public ShipLookDirection lookDir;
 
+    public SpriteRenderer render;
+
     public float speed = 2;
+
+    public float delaySpeedAdd = 15;
+
+    public float speedToAdd = 0.2f;
+
+    float counterSpeedAdd = 15;
 
     Vector3 moveDir;
 
@@ -20,7 +28,31 @@ public class EnemyComponent : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+
+        if(PhotonNetwork.IsMasterClient && PhotonNetwork.IsMasterClient)
+        {
+            if (transform.position.y < PlayerManager.Instance.transform.position.y && !render.isVisible)
+            {
+                Destroy(gameObject);
+                return;
+            }
+        }
+        
+
+        UpdateSpeed();
+
         transform.position += moveDir * speed * Time.deltaTime;
+
+    }
+
+    void UpdateSpeed()
+    {
+        counterSpeedAdd -= Time.deltaTime;
+        if (counterSpeedAdd <= 0)
+        {
+            speed += speedToAdd;
+            counterSpeedAdd = delaySpeedAdd;
+        }
     }
 
     public void SetUp()

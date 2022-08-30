@@ -35,6 +35,11 @@ public class UI_GameStartPanel : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        txtName.text = PlayerPrefs.GetString("nickname", string.Empty);
+    }
+
     public void DisplayBtnPlay(bool state = true)
     {
         if (btnPlay)

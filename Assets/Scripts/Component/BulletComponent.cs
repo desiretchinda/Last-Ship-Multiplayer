@@ -12,7 +12,7 @@ public class BulletComponent : MonoBehaviour
     public Vector3 moveDir = Vector3.up;
 
     public SpriteRenderer spRender;
- 
+
     [SerializeField]
     AudioSource audioSource;
 
@@ -41,10 +41,10 @@ public class BulletComponent : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Enemy"))
+        if (collision.CompareTag("Enemy"))
         {
             Instantiate(GameManager.Instance.redExplosion, collision.transform.position, collision.transform.rotation);
-            Destroy(collision.gameObject);            
+            Destroy(collision.gameObject);
         }
     }
 
@@ -73,6 +73,11 @@ public class BulletComponent : MonoBehaviour
     public void PlayShoot()
     {
         audioSource.Play();
+    }
+
+    public void SetPitch()
+    {
+        //audioSource.pitch = Random.Range(0, 1);
     }
 
 }
