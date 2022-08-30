@@ -22,23 +22,23 @@ public class EnemyComponent : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        SetUp();
+        Destroy(gameObject, 30);
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if(PhotonNetwork.IsMasterClient && PhotonNetwork.IsMasterClient)
-        {
-            if (transform.position.y < PlayerManager.Instance.transform.position.y && !render.isVisible)
-            {
-                Destroy(gameObject);
-                return;
-            }
-        }
-        
+        //if(PhotonNetwork.IsMasterClient && PhotonNetwork.IsMasterClient)
+        //{
+        //    if (transform.position.y < PlayerManager.Instance.transform.position.y && !render.isVisible)
+        //    {
+        //        Destroy(gameObject);
+        //        return;
+        //    }
+        //}
 
+        
         UpdateSpeed();
 
         transform.position += moveDir * speed * Time.deltaTime;

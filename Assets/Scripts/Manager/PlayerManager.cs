@@ -20,6 +20,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
     Rigidbody2D rigidbody2;
 
+    [SerializeField]
     BoxCollider2D boxCollider;
 
     public SpriteRenderer spRenderer;
@@ -46,7 +47,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             spRenderer.color = Color.white;
         }
 
-        if(!photonView.IsMine)
+        if (!photonView.IsMine)
         {
             boxCollider.isTrigger = true;
         }
@@ -63,8 +64,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         if (isDead)
             return;
 
-        movement.x = Input.GetAxis("Horizontal");
-       
+        if (GameManager.Instance.leftButton.isPressed)
+            movement.x = -1;
+        else if (GameManager.Instance.rightButton.isPressed)
+            movement.x = 1;
+        else
+            movement.x = 0;
+
         SpawnBullet();
     }
 

@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public MoveButton leftButton;
+
+    public MoveButton rightButton;
+
     public float delaySpawnEnemy = 2f;
 
     public List<Transform> spawnEnemyPos = new List<Transform>();
