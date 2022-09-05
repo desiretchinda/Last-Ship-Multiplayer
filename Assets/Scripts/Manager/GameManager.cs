@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
         if (counterDelaySpawnEnemy <= 0)
         {
 
-            var enemy = PhotonNetwork.InstantiateRoomObject(GameManager.Instance.enemyPrefab.name, GameManager.Instance.spawnEnemyPos[Random.Range(0, GameManager.Instance.spawnEnemyPos.Count - 1)].position, Quaternion.identity);
+            var enemy = PhotonNetwork.InstantiateRoomObject(GameManager.Instance.enemyPrefab.name, GameManager.Instance.spawnEnemyPos[Random.Range(0, GameManager.Instance.spawnEnemyPos.Count)].position, Quaternion.identity);
 
             if (enemy)
             {

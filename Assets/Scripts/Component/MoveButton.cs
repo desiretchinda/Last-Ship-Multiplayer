@@ -7,8 +7,17 @@ public class MoveButton : MonoBehaviour, IPointerDownHandler,IPointerUpHandler
 {
     public bool isPressed;
 
+    private void Awake()
+    {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
+
         isPressed = true;
     }
 

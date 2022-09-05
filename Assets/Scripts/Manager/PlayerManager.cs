@@ -47,11 +47,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             spRenderer.color = Color.white;
         }
 
-        if (!photonView.IsMine)
-        {
-            boxCollider.isTrigger = true;
-        }
-
         SetPlayerName();
     }
 
@@ -64,12 +59,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         if (isDead)
             return;
 
-        if (GameManager.Instance.leftButton.isPressed)
-            movement.x = -1;
-        else if (GameManager.Instance.rightButton.isPressed)
-            movement.x = 1;
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            movement.x = Input.acceleration.x;
+        }
         else
-            movement.x = 0;
+        {
+            movement.x = Input.GetAxis("Horizontal");
+        }
 
         SpawnBullet();
     }
@@ -88,20 +85,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        //if(stream.IsWriting)
-        //{
-        //    stream.SendNext(rigidbody2.position);
-        //    stream.SendNext(rigidbody2.rotation);
-        //    stream.SendNext(rigidbody2.velocity);
-        //}else
-        //{
-        //    rigidbody2.position = (Vector2)stream.ReceiveNext();
-        //    rigidbody2.rotation = (float)stream.ReceiveNext();
-        //    rigidbody2.velocity = (Vector2)stream.ReceiveNext();
+        if (stream.IsWriting)
+        {
+            stream.SendNext(rigidbody2.position);
+            stream.SendNext(rigidbody2.velocity);
+        }
+        else
+        {
+            rigidbody2.position = (Vector2)stream.ReceiveNext();
+            rigidbody2.velocity = (Vector2)stream.ReceiveNext();
 
-        //    lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
-        //    rigidbody2.position += rigidbody2.velocity * lag;
-        //}
+            lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+            rigidbody2.position += rigidbody2.velocity * lag;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -139,7 +135,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     {
 
         rigidbody2.velocity = movement * speed * Time.deltaTime;
+        rigidbody2.position = new Vector2(Mathf.Clamp(rigidbody2.position.x, -2f, 2), rigidbody2.position.y);
     }
+
 
     void SpawnBullet()
     {

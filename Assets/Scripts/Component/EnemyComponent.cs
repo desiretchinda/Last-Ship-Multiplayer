@@ -17,6 +17,7 @@ public class EnemyComponent : MonoBehaviourPunCallbacks
 
     float counterSpeedAdd = 15;
 
+
     Vector3 moveDir;
 
     // Start is called before the first frame update
