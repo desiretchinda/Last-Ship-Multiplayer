@@ -95,7 +95,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 
     public void OnSubscribed(string[] channels, bool[] results)
     {
-
+        DisplayMessage();
     }
 
     public void OnUnsubscribed(string[] channels)

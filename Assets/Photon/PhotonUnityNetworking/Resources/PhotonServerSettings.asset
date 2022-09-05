@@ -16,7 +16,7 @@ MonoBehaviour:
     AppIdRealtime: 84d0aab8-79f7-4b6c-a65b-dcd612044ab2
     AppIdFusion: 
     AppIdChat: 6d6da3ac-01da-47a8-baa5-e35531ee1732
-    AppIdVoice: 
+    AppIdVoice: dff296d6-c7b3-4bcb-bdf9-c63cd9eaf5e0
     AppVersion: 
     UseNameServer: 1
     FixedRegion: 
@@ -42,6 +42,9 @@ MonoBehaviour:
   - SpawnBullet
   - RPC_SpawnBullet
   - RPC_SpawnEnemy
+  - CantHearYou
+  - ChangeColour
+  - HeresWhy
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

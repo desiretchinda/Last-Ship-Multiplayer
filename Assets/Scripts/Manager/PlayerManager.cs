@@ -85,6 +85,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+        if (rigidbody2 == null)
+            return;
+
         if (stream.IsWriting)
         {
             stream.SendNext(rigidbody2.position);

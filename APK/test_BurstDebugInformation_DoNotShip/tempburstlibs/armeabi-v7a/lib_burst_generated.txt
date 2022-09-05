@@ -118,6 +118,8 @@ Library: lib_burst_generated
 --compilation-defines=PUN_2_0_OR_NEWER
 --compilation-defines=PUN_2_OR_NEWER
 --compilation-defines=PUN_2_19_OR_NEWER
+--compilation-defines=CROSS_PLATFORM_INPUT
+--compilation-defines=MOBILE_INPUT
 --compilation-defines=PACKAGE_PHYSICS
 --compilation-defines=PACKAGE_PHYSICS2D
 --compilation-defines=PACKAGE_TILEMAP
@@ -160,6 +162,9 @@ Library: lib_burst_generated
 --root-assembly=G:\NADAK\CLIENTS\Tchinda\Last-Ship-Multiplayer\Temp\StagingArea\Data\Managed\Unity.Profiling.Core.dll
 --root-assembly=G:\NADAK\CLIENTS\Tchinda\Last-Ship-Multiplayer\Temp\StagingArea\Data\Managed\Unity.InternalAPIEngineBridge.001.dll
 --root-assembly=G:\NADAK\CLIENTS\Tchinda\Last-Ship-Multiplayer\Temp\StagingArea\Data\Managed\Unity.Subsystem.Registration.dll
+--root-assembly=G:\NADAK\CLIENTS\Tchinda\Last-Ship-Multiplayer\Temp\StagingArea\Data\Managed\PhotonVoice.PUN.dll
+--root-assembly=G:\NADAK\CLIENTS\Tchinda\Last-Ship-Multiplayer\Temp\StagingArea\Data\Managed\PhotonVoice.API.dll
+--root-assembly=G:\NADAK\CLIENTS\Tchinda\Last-Ship-Multiplayer\Temp\StagingArea\Data\Managed\PhotonVoice.dll
 --assembly-folder=G:\NADAK\CLIENTS\Tchinda\Last-Ship-Multiplayer\Temp\StagingArea\Data\Managed\
 --pdb-search-paths=Temp/ManagedSymbols/
 --method=Unity.Burst.BurstCompiler+BurstCompilerHelper, Unity.Burst, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::IsBurstEnabled()--8c2be93e18276203cbd918daa2748a10
